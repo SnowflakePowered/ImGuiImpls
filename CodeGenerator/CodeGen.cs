@@ -15,7 +15,7 @@ namespace CodeGenerator
     {
         public void Setup(Driver driver)
         {
-            const string libraryName = "cimgui.dll";
+            const string libraryName = "cimgui_impl.dll";
             string[] imguiDirectories = new[]
             {
                 "./",
@@ -27,13 +27,17 @@ namespace CodeGenerator
             options.GenerateSequentialLayout = true;
 
             var module = options.AddModule(libraryName);
-            module.OutputNamespace = "DearImguiSharp";
+            module.OutputNamespace = "ImGuiImpls";
             module.Defines.Add("CIMGUI_DEFINE_ENUMS_AND_STRUCTS");
+            module.Defines.Add("CIMGUI_IMPL_ONLY");
+            module.Defines.Add("VK_NO_PROTOTYPES");
+
             foreach (var directory in imguiDirectories)
                 module.IncludeDirs.Add(directory);
 
             module.Headers.Add("cimgui.h");
             module.Headers.Add("cimgui_impl.h");
+            module.Headers.Add("vulkan_core.h");
         }
 
         public void SetupPasses(Driver driver)
@@ -77,8 +81,11 @@ namespace CodeGenerator
             // This causes the type to expand to void**, but C# sets the field as IntPtr.
             // C# has no implicit cast for this.
             // We implement this property ourselves in the other project :3
-            IgnoreProperty("ImVectorImTextureID", "Data", ctx);
-            IgnoreProperty("ImVector_const_charPtr", "Data", ctx);
+
+            // No user code is included so we don't care about this.
+
+            //IgnoreProperty("ImVectorImTextureID", "Data", ctx);
+            //IgnoreProperty("ImVector_const_charPtr", "Data", ctx);
         }
 
         private void RemovePrefix(ASTContext ctx)
@@ -110,7 +117,8 @@ namespace CodeGenerator
         private void IgnoreProperty(string className, string propertyName, ASTContext ctx)
         {
             var cls = ctx.FindCompleteClass(className);
-            var dataProperty = cls.Properties.First(x => x.OriginalName == propertyName);
+            var dataProperty = cls.Properties.FirstOrDefault(x => x.OriginalName == propertyName);
+            if (dataProperty != null)
             dataProperty.Ignore = true;
         }
 

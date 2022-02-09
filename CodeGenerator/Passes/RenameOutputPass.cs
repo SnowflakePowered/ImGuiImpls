@@ -12,8 +12,8 @@ namespace CodeGenerator.Passes
             var blocks = output.Outputs.SelectMany(i => i.FindBlocks(BlockKind.Unknown));
             foreach (var block in blocks)
             {
-                block.Text.StringBuilder.Replace("cimgui_impl", "ImGui");
-                block.Text.StringBuilder.Replace("cimgui", "ImGui");
+                block.Text.StringBuilder.Replace("cimgui_impl", "ImGuiImpls");
+                block.Text.StringBuilder.Replace("cimgui", "ImGuiImpls__Priv");
             }
         }
     }

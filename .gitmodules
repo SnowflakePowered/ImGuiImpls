@@ -1,3 +1,6 @@
 [submodule "cimgui"]
 	path = cimgui
-	url = https://github.com/Sewer56/cimgui.git
+	url = https://github.com/SnowflakePowered/cimgui
+[submodule "CodeGenerator/Vulkan-Headers"]
+	path = CodeGenerator/Vulkan-Headers
+	url = https://github.com/KhronosGroup/Vulkan-Headers

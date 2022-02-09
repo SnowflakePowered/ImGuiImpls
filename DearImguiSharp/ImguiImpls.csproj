@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Authors>Sewer56;chyyran</Authors>
+    <Description>Lightweight wrappers around ImGui standard backends.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.86.0-debug</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="deps\cimgui\win-x64\cimgui_impl.dll">
+      <PackagePath>runtimes/win-x64/native</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+	<Content Include="$(OutputPath)\CppSharp.Runtime.dll">
+	  <Pack>true</Pack>
+	  <PackagePath>lib\$(TargetFramework)</PackagePath>
+	</Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CppSharp.Runtime">
+      <HintPath>deps\CppSharp.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+	
+
+</Project>
